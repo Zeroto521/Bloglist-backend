@@ -1,0 +1,32 @@
+{
+  "name": "bloglist-backend",
+  "version": "1.0.0",
+  "main": "./src/index.js",
+  "description": "This project is the Full Stack Open 2020 [part 4](https://fullstackopen.com/en/part4) Bloglist backend exercise.",
+  "author": "Zero <Zeroto521@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "start": "node ./src/index.js",
+    "dev": "nodemon ./src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zeroto521/Bloglist-backend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Zeroto521/Bloglist-backend/issues"
+  },
+  "homepage": "https://github.com/Zeroto521/Bloglist-backend#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.11.7",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
