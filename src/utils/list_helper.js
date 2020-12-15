@@ -11,7 +11,14 @@ const totalLikes = (blogs) => {
   return blogs.reduce(reducer, 0)
 }
 
+const favoriteBlog = (blogs) => {
+  const likes = blogs.map(e => e.likes)
+  const blog = blogs[likes.indexOf(Math.max(...likes))]
+  return blog
+}
+
 export default {
   dummy,
-  totalLikes
+  totalLikes,
+  favoriteBlog
 }
