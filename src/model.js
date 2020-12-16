@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 import config from './config.js'
 import logger from './utils/logger.js'
 
-logger.info('connecting to', config.MONGODB_URI)
+logger.info('connecting to', config.MONGODB_URL)
 
 mongoose.connect(config.MONGODB_URL, {
   useNewUrlParser: true,

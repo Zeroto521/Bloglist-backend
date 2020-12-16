@@ -1,13 +1,13 @@
+import 'express-async-errors'
 import express from 'express'
 
 import { Blog } from './model.js'
 
 const appRouter = express.Router()
 
-appRouter.get('/', (_, response) => {
-  Blog.find({}).then(blogs => {
-    response.json(blogs)
-  })
+appRouter.get('/', async (_, response) => {
+  const blogs = await Blog.find({})
+  response.json(blogs)
 })
 
 appRouter.post('/', (request, response) => {
@@ -33,9 +33,8 @@ appRouter.post('/', (request, response) => {
     likes: body.likes
   })
 
-  blog.save().then(result => {
-    response.status(201).json(result)
-  })
+  const savedBlog = blog.save()
+  response.status(201).json(savedBlog)
 })
 
 
