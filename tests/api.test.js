@@ -51,7 +51,7 @@ test('a valid blog can be added', async () => {
   expect(contents).toContain('Canonical string reduction')
 })
 
-test('a valid blog missed likes attribute can be the default value', async () => {
+test('a blog missed likes attribute can be the default value', async () => {
   const newBlog = {
     _id: "5a422b3a1b54a676234d17f9",
     title: "Canonical string reduction",
@@ -62,6 +62,18 @@ test('a valid blog missed likes attribute can be the default value', async () =>
 
   const response = await api.post('/api/blogs').send(newBlog)
   expect(response.body.likes).toBe(0)
+})
+
+
+test('a invalid blog missed title and url can be returned 400 status', async () => {
+  const newBlog = {
+    _id: "5a422b3a1b54a676234d17f9",
+    author: "Edsger W. Dijkstra",
+    likes: 0,
+    __v: 0
+  }
+
+  await api.post('/api/blogs').send(newBlog).expect(400)
 })
 
 
