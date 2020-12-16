@@ -29,6 +29,13 @@ test('length of the blogs are returned', async () => {
   expect(response.body).toHaveLength(helper.initialBlogs.length)
 })
 
+test('check blog Schema have id attribute or not', async () => {
+  const response = await api.get('/api/blogs')
+  const result = response.body.map(r => r.id)
+
+  expect(result[0]).toBeDefined()
+})
+
 test('a valid blog can be added', async () => {
   const newBlog = {
     _id: "5a422b3a1b54a676234d17f9",
@@ -45,10 +52,10 @@ test('a valid blog can be added', async () => {
     .expect('Content-Type', 'application/json; charset=utf-8')
 
   const response = await api.get('/api/blogs')
-  const contents = response.body.map(r => r.title)
+  const result = response.body.map(r => r.title)
 
   expect(response.body).toHaveLength(helper.initialBlogs.length + 1)
-  expect(contents).toContain('Canonical string reduction')
+  expect(result).toContain('Canonical string reduction')
 })
 
 test('a blog missed likes attribute can be the default value', async () => {
