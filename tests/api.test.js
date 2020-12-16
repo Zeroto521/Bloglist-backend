@@ -31,7 +31,8 @@ test('length of the blogs are returned', async () => {
 
 test('a valid blog can be added', async () => {
   const newBlog = {
-    _id: "5a422b3a1b54a676234d17f9", title: "Canonical string reduction",
+    _id: "5a422b3a1b54a676234d17f9",
+    title: "Canonical string reduction",
     author: "Edsger W. Dijkstra",
     url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
     likes: 12, __v: 0
@@ -48,6 +49,19 @@ test('a valid blog can be added', async () => {
 
   expect(response.body).toHaveLength(helper.initialBlogs.length + 1)
   expect(contents).toContain('Canonical string reduction')
+})
+
+test('a valid blog missed likes attribute can be the default value', async () => {
+  const newBlog = {
+    _id: "5a422b3a1b54a676234d17f9",
+    title: "Canonical string reduction",
+    author: "Edsger W. Dijkstra",
+    url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
+    __v: 0
+  }
+
+  const response = await api.post('/api/blogs').send(newBlog)
+  expect(response.body.likes).toBe(0)
 })
 
 

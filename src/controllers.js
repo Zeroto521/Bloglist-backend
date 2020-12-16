@@ -10,7 +10,7 @@ appRouter.get('/', async (_, response) => {
   response.json(blogs)
 })
 
-appRouter.post('/', (request, response) => {
+appRouter.post('/', async (request, response) => {
   const body = request.body
 
   if (body.title === undefined) {
@@ -22,9 +22,6 @@ appRouter.post('/', (request, response) => {
   if (body.url === undefined) {
     return response.status(400).json({ error: 'url missing' })
   }
-  if (body.likes === undefined) {
-    return response.status(400).json({ error: 'likes missing' })
-  }
 
   const blog = new Blog({
     title: body.title,
@@ -33,7 +30,7 @@ appRouter.post('/', (request, response) => {
     likes: body.likes
   })
 
-  const savedBlog = blog.save()
+  const savedBlog = await blog.save()
   response.status(201).json(savedBlog)
 })
 
