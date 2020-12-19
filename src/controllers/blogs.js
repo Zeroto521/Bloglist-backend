@@ -1,7 +1,7 @@
 import 'express-async-errors'
 import express from 'express'
 
-import { Blog } from './model.js'
+import { Blog } from '../models/blog.js'
 
 const blogsRouter = express.Router()
 

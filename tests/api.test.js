@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 import supertest from 'supertest'
 
 import { app } from '../src/app.js'
-import { Blog } from '../src/model.js'
+import { Blog } from '../src/models/blog.js'
 import helper from './test_helper.js'
 
 const api = supertest(app)
