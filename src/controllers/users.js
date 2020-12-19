@@ -6,7 +6,9 @@ import { User } from '../models/user.js'
 const usersRouter = express.Router()
 
 usersRouter.get('/', async (_, response) => {
-  const users = await User.find({}).populate('notes')
+  const users = await User.find({}).populate(
+    'blogs', { 'url': 1, 'title': 1, 'author': 1 }
+  )
   response.json(users.map(u => u.toJSON()))
 })
 

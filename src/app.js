@@ -4,7 +4,8 @@ import mongoose from 'mongoose'
 import morgan from 'morgan'
 
 import { blogsRouter } from './controllers/blogs.js'
-import { unknownEndpoint, errorHandler } from './utils/middleware.js'
+import { loginRouter } from './controllers/login.js'
+import { unknownEndpoint, errorHandler, tokenExtractor } from './utils/middleware.js'
 import { usersRouter } from './controllers/users.js'
 import config from './config.js'
 import logger from './utils/logger.js'
@@ -31,8 +32,11 @@ app.use(express.static('build'))
 app.use(express.json())
 app.use(morgan('tiny'))
 
-app.use('/api/blogs', blogsRouter)
+app.use(tokenExtractor)
+
+app.use('/api/login', loginRouter)
 app.use('/api/users', usersRouter)
+app.use('/api/blogs', blogsRouter)
 
 app.use(unknownEndpoint)
 app.use(errorHandler)
