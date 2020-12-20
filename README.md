@@ -1,4 +1,4 @@
-# Bloglistbackend
+# Bloglist backend
 
 This project is the Full Stack Open 2020 [part 4](https://fullstackopen.com/en/part4) Bloglist backend exercise.
 
