@@ -60,8 +60,15 @@ blogsRouter.put('/:id', async (request, response) => {
 })
 
 blogsRouter.delete('/:id', async (request, response) => {
-  await Blog.findByIdAndRemove(request.params.id)
-  response.status(204).end()
+  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+  const user = await User.findById(decodedToken.id)
+
+  if (user.blogs.includes(request.params.id)) {
+    await Blog.findByIdAndRemove(request.params.id)
+    response.status(204).end()
+  }
+
+  response.status(403).end()
 })
 
 export { blogsRouter }
