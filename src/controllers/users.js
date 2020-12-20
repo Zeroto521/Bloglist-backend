@@ -15,7 +15,6 @@ usersRouter.get('/', async (_, response) => {
 usersRouter.post('/', async (request, response) => {
   const body = request.body
 
-  const saltRounds = 10
   if (body.username.length <= 3) {
     return response.status(400).send({ error: 'username length less than 3' })
   }
@@ -23,16 +22,16 @@ usersRouter.post('/', async (request, response) => {
     return response.status(400).send({ error: 'password length less than 3' })
   }
 
+  const saltRounds = 10
   const passwordHash = await bcrypt.hash(body.password, saltRounds)
 
   const user = new User({
-    username: body.username,
-    name: body.name,
+    "username": body.username,
+    "name": body.name,
     passwordHash,
   })
 
   const savedUser = await user.save()
-
   response.json(savedUser)
 })
 
