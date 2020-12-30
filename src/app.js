@@ -5,6 +5,7 @@ import morgan from 'morgan'
 
 import { blogsRouter } from './controllers/blogs.js'
 import { loginRouter } from './controllers/login.js'
+import { testRouter } from './controllers/test.js'
 import { unknownEndpoint, errorHandler, tokenExtractor } from './utils/middleware.js'
 import { usersRouter } from './controllers/users.js'
 import config from './config.js'
@@ -37,6 +38,10 @@ app.use(tokenExtractor)
 app.use('/api/login', loginRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/blogs', blogsRouter)
+
+if (process.env.NODE_ENV === 'test') {
+  app.use('/api/testing', testRouter)
+}
 
 app.use(unknownEndpoint)
 app.use(errorHandler)
