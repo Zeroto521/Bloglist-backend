@@ -7,8 +7,11 @@ import { User } from '../models/user.js'
 
 const blogsRouter = express.Router()
 
-blogsRouter.get('/', async (_, response) => {
-  const blogs = await Blog.find({}).populate(
+blogsRouter.get('/', async (request, response) => {
+  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+  const user = await User.findById(decodedToken.id)
+
+  const blogs = await Blog.find({ 'user': user.id }).populate(
     'user', { 'username': 1, 'name': 1 }
   )
   response.json(blogs)
@@ -76,7 +79,7 @@ blogsRouter.delete('/:id', async (request, response) => {
   }
 
   user.blogs = user.blogs.filter(
-    b => b.toString() !== blog.id.toString() 
+    b => b.toString() !== blog.id.toString()
   )
   console.log(user.blogs.length)
   await blog.remove()
