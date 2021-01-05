@@ -1,11 +1,13 @@
 import bcrypt from 'bcrypt'
 import express from 'express'
+import jwt from 'jsonwebtoken'
 
 import { User } from '../models/user.js'
 
 const usersRouter = express.Router()
 
-usersRouter.get('/', async (_, response) => {
+usersRouter.get('/', async (request, response) => {
+  jwt.verify(request.token, process.env.SECRET)
   const users = await User.find({}).populate(
     'blogs', { 'url': 1, 'title': 1, 'author': 1 }
   )

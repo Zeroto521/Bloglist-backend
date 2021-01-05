@@ -9,9 +9,7 @@ const blogsRouter = express.Router()
 
 blogsRouter.get('/', async (request, response) => {
   const decodedToken = jwt.verify(request.token, process.env.SECRET)
-  const user = await User.findById(decodedToken.id)
-
-  const blogs = await Blog.find({ 'user': user.id }).populate(
+  const blogs = await Blog.find({ 'user': decodedToken.id }).populate(
     'user', { 'username': 1, 'name': 1 }
   )
   response.json(blogs)
@@ -49,19 +47,41 @@ blogsRouter.get('/:id', async (request, response) => {
 })
 
 blogsRouter.put('/:id', async (request, response) => {
-  const body = request.body
-
-  const blog = {
-    "title": body.title,
-    "author": body.author,
-    "url": body.url,
-    "likes": body.likes
+  if (await Blog.findById(request.params.id)) {
+    const body = request.body
+    const blog = {
+      "title": body.title,
+      "author": body.author,
+      "url": body.url,
+      "likes": body.likes
+    }
+    const updatedBlog = await Blog.findByIdAndUpdate(
+      request.params.id, blog, { new: true }
+    )
+    response.json(updatedBlog.toJSON())
   }
 
-  const updatedBlog = await Blog.findByIdAndUpdate(
-    request.params.id, blog, { new: true }
-  )
-  response.json(updatedBlog.toJSON())
+  response.status(404).end()
+})
+
+blogsRouter.put('/:id/comments', async (request, response) => {
+  const blog = await Blog.findById(request.params.id)
+  if (blog) {
+    const comment = request.body.comment
+    const newBlog = {
+      "title": blog.title,
+      "author": blog.author,
+      "url": blog.url,
+      "likes": blog.likes,
+      "comments": blog.comments.concat(comment)
+    }
+    const updatedBlog = await Blog.findByIdAndUpdate(
+      request.params.id, newBlog, { new: true }
+    )
+    response.json(updatedBlog.toJSON())
+  }
+
+  response.status(404).end()
 })
 
 blogsRouter.delete('/:id', async (request, response) => {
